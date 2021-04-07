@@ -1,7 +1,7 @@
 {
-  "name": "esbuild-plugin-alias",
-  "version": "0.1.2",
-  "description": "esbuild plugin for path aliases",
+  "name": "esbuild-plugin-at-src-alias",
+  "version": "0.1.0",
+  "description": "esbuild plugin for adding @ => ./src alias",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -12,19 +12,19 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igoradamenko/esbuild-plugin-alias.git"
+    "url": "git+https://github.com/marcin-wosinek/esbuild-plugin-at-src-alias.git"
   },
   "keywords": [
     "esbuild",
     "alias",
     "plugin"
   ],
-  "author": "Igor Adamenko <mail@igoradamenko.com> (https://igoradamenko.com)",
+  "author": "Marcin Wosinek <marcin.wosinek@gmail.com> (https://marcin-wosinek.github.io/blog/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/igoradamenko/esbuild-plugin-alias/issues"
+    "url": "https://github.com/marcin-wosinek/esbuild-plugin-at-src-alias/issues"
   },
-  "homepage": "https://github.com/igoradamenko/esbuild-plugin-alias#readme",
+  "homepage": "https://github.com/marcin-wosinek/esbuild-plugin-at-src-alias#readme",
   "devDependencies": {
     "@funboxteam/eslint-config": "5.3.0",
     "esbuild": "0.8.44",
