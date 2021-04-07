@@ -1,20 +1,20 @@
-# esbuild-plugin-alias
+# esbuild-plugin-at-src-alias
 
-[![npm](https://img.shields.io/npm/v/esbuild-plugin-alias.svg)](https://www.npmjs.com/package/esbuild-plugin-alias)
+[![npm](https://img.shields.io/npm/v/esbuild-plugin-at-src-alias.svg)](https://www.npmjs.com/package/esbuild-plugin-at-src-alias)
 
-[esbuild](https://github.com/evanw/esbuild) plugin for path aliases.
+[esbuild](https://github.com/evanw/esbuild) plugin for @ alias to ./src.
 
+Forked from & inspired by https://github.com/igoradamenko/esbuild-plugin-alias.
 
 ## Rationale
 
-Sometimes it's useful to have dynamic imports that resolves into different files depending on some conditions 
-(e.g. env variables).
-
+Vue cli generated projects works with @ pointing to ./src. Quick and dirty
+solution to make them work in esbuild.
 
 ## Installation
 
 ```sh
-npm install --save-dev esbuild-plugin-alias
+npm install --save-dev esbuild-plugin-at-src-alias
 ```
 
 
@@ -24,31 +24,15 @@ Define plugin in the `plugins` section of esbuild config like this:
 
 ```js
 const esbuild = require('esbuild');
-const alias = require('esbuild-plugin-alias');
+const alias = require('esbuild-plugin-at-src-alias');
 
 esbuild.build({
   // ...
   plugins: [
-    alias({
-      'imported-path': '/home/user/lib/src/resolved-path',
-    }),
+    alias(),
   ],
 })
 ```
-
-**Note:** esbuild requires resolved paths to be absolute. So, make sure that values in plugin's config object are
-absolute paths.
-
-If you need to find a path to an installed dep, you may use `require.resolve`. E.g.:
-
-```js
-alias({
-  'react-dom': process.env.NODE_ENV === 'dev' 
-    ? require.resolve('@hot-loader/react-dom')
-    : require.resolve('react-dom'),
-}),
-```
-
 
 ## Example
 
@@ -56,7 +40,7 @@ Having this input file:
 
 ```js
 // src/app.js
-import settings from 'settings.env';
+import settings from '@/config/settings';
 
 console.log(settings);
 ```
@@ -67,20 +51,18 @@ And esbuild config like this:
 // config/build.js
 const path = require('path');
 const esbuild = require('esbuild');
-const alias = require('esbuild-plugin-alias');
+const alias = require('esbuild-plugin-at-src-alias');
 
 esbuild.build({
   entryPoints: ['in.js'],
   bundle: true,
   outfile: 'out.js',
   plugins: [
-    alias({
-      'settings.env': path.resolve(__dirname, `../src/settings.${process.env.NODE_ENV}.js`),
-    }),
+    alias(),
   ],
 }).catch(err => process.exit(1));
 ```
 
-You will get `src/settings.dev.js` loaded instead of `settings.env` when `NODE_ENV` equals `dev`.
+You will get `src/config/settings.js` loaded.
 
 Check [test/](test) for more detailed example.
