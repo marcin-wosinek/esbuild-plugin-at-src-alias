@@ -1,20 +1,18 @@
-module.exports = options => {
-  const aliases = Object.keys(options);
-  const re = new RegExp(`^${aliases.map(x => escapeRegExp(x)).join('|')}$`);
+const path = require('path');
 
+module.exports = () => {
   return {
     name: 'alias',
     setup(build) {
+      const regex = /@\//;
+
       // we do not register 'file' namespace here, because the root file won't be processed
       // https://github.com/evanw/esbuild/issues/791
-      build.onResolve({ filter: re }, args => ({
-        path: options[args.path],
-      }));
+      build.onResolve({ filter: regex }, args => {
+        return {
+          path: args.path.replace(regex, `${path.resolve('.')}/src/`),
+        };
+      });
     },
   };
 };
-
-function escapeRegExp(string) {
-  // $& means the whole matched string
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
